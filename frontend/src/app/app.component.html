@@ -24,10 +24,13 @@
     min-height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+
     padding: 1rem;
+    padding-top: 5rem;
     box-sizing: inherit;
     position: relative;
+    background-color: var(--gray-900);
   }
 
   .angular-logo {
@@ -36,13 +39,19 @@
 
   .content {
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     width: 100%;
-    max-width: 700px;
+    max-width: 1000px;
     margin-bottom: 3rem;
+    color: white;
   }
 
   @media screen and (max-width: 650px) {
+    .main {
+      padding-top: 0;
+    }
+
     .content {
       flex-direction: column;
       width: max-content;
