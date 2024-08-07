@@ -52,11 +52,13 @@
 
 <main class="main">
   <div class="content">
-    <app-file-upload requiredFileType=".csv"></app-file-upload>
-    <div class="divider" role="separator" aria-label="Divider"></div>
-    <div class="right-side">
-      <app-summary></app-summary>
+    <div class="upload-button-container">
+      <app-file-upload
+        requiredFileType=".csv"
+        (newSummaryDataEvent)="onNewSummaryData($event)"
+      ></app-file-upload>
     </div>
+    <app-summary [summaryData]="summaryData"></app-summary>
   </div>
 </main>
 

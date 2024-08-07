@@ -1,36 +1,61 @@
-import { NgIf } from '@angular/common';
-import { Component } from '@angular/core';
-import { MatCell, MatHeaderCell, MatHeaderRow, MatRow, MatTable, MatTableModule } from '@angular/material/table';
-
-
-export interface DataEntry {
-  date: string;
-  hoursWorked: number;
-  noOfEntries: number;
-  flags: string;
-}
-
-const MOCK_DATA: DataEntry[] = [
-  {date: '2023-01-20', hoursWorked: 1, noOfEntries: 1, flags: ''},
-  {date: '2023-01-21', hoursWorked: 2, noOfEntries: 2, flags: ''},
-  {date: '2023-01-22', hoursWorked: 3, noOfEntries: 3, flags: ''},
-  {date: '2023-01-23', hoursWorked: 4, noOfEntries: 4, flags: ''},
-  {date: '2023-01-24', hoursWorked: 5, noOfEntries: 5, flags: ''},
-  {date: '2023-01-25', hoursWorked: 6, noOfEntries: 6, flags: ''},
-  {date: '2023-01-26', hoursWorked: 7, noOfEntries: 7, flags: ''},
-  {date: '2023-01-27', hoursWorked: 8, noOfEntries: 8, flags: ''},
-  {date: '2023-01-28', hoursWorked: 9, noOfEntries: 9, flags: ''},
-  {date: '2023-01-29', hoursWorked: 10, noOfEntries: 10, flags: ''},
-];
+import { CommonModule, NgIf } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { ProcessedData } from '../app.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatCard, MatCardContent } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-summary',
   standalone: true,
-  imports: [MatTableModule],
+  imports: [
+    MatTableModule,
+    MatIcon,
+    MatCard,
+    MatCardContent,
+    MatExpansionModule,
+    NgIf,
+    CommonModule,
+  ],
   templateUrl: './summary.component.html',
-  styleUrl: './summary.component.less'
+  styleUrl: './summary.component.less',
+  animations: [
+    trigger('detailsExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
 export class SummaryComponent {
-  dataSource = MOCK_DATA;
-  displayedColumns: string[] = ['date', 'hoursWorked', 'noOfEntries', 'flags'];
+  @Input() summaryData: ProcessedData[] = [];
+
+  columns = {
+    date: 'Date',
+    hoursWorked: 'Hours Worked',
+    entries: 'Entries',
+    flags: 'Flags',
+  } as { [key: string]: string };
+  columnsArray = Object.keys(this.columns);
+  columnsHeadersArray = Object.values(this.columns);
+  columnsLength = this.columnsArray.length;
+
+  detailsColumnsArray = ['description', 'start', 'end', 'duration'];
+
+  expandedElement?: any = undefined;
+
+  isExpansionDetailRow(index: number, row: any): boolean {
+    return row.hasOwnProperty('expandedDetails');
+  }
 }

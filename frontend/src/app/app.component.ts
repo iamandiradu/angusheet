@@ -15,3 +15,9 @@ export class AppComponent {
   title = 'angusheet';
 }
 
+  summaryData: ProcessedData[] = [];
+
+  onNewSummaryData = (data: ProcessedData[]) => {
+    this.summaryData = data;
+  };
+}
