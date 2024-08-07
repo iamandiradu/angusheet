@@ -4,13 +4,14 @@
   }
 
   .file-name {
-    padding-right: 2vb;
+    padding-right: 1rem;
   }
 
   .file-upload {
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     display: flex;
+    margin-bottom: 1rem;
   }
 </style>
 
@@ -23,7 +24,7 @@
 />
 
 <div class="file-upload">
-  <span class="file-name"> {{ fileName || "No file uploaded yet." }}</span>
+  <span class="file-name"> {{ fileName || "No file uploaded yet" }}</span>
 
   <button
     mat-mini-fab
@@ -35,19 +36,15 @@
   </button>
 </div>
 
-<div class="progress">
-  <mat-progress-bar
-    class="progress-bar"
-    mode="determinate"
-    [value]="uploadProgress"
-    *ngIf="uploadProgress"
+<!-- Only display if file selected -->
+<div class="file-upload" *ngIf="fileName">
+  <span class="file-name">Process</span>
+  <button
+    mat-mini-fab
+    color="primary"
+    class="process-btn"
+    (click)="onProcessFile()"
   >
-  </mat-progress-bar>
-
-  <mat-icon
-    class="cancel-upload"
-    (click)="cancelUpload()"
-    *ngIf="uploadProgress"
-    >delete_forever</mat-icon
-  >
+    <mat-icon>settings</mat-icon>
+  </button>
 </div>
