@@ -25,14 +25,20 @@ export class FileUploadComponent {
   newSummaryDataEvent = new EventEmitter<ProcessedData[]>();
 
   fileName = '';
-  file?: File = undefined;
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
     if (file) {
       this.fileName = file.name;
-      this.file = file;
+
+      Papa.parse(file, {
+        complete: (result: { data: string[][] }) => {
+          // Process the CSV data
+          const data = this.summarize(result.data);
+          this.newSummaryDataEvent.emit(data);
+        },
+      });
     }
   }
 
@@ -47,12 +53,12 @@ export class FileUploadComponent {
         description,
         start: startDate,
         end: endDate,
-        duration: (endDate.getTime() - startDate.getTime()) / (60 * 60 * 1000), // duration in hours
+        duration: (endDate.getTime() - startDate.getTime()) / (60 * 60 * 1000),
       };
     });
   }
 
-  validateAndSummarize(data: string[][]): ProcessedData[] {
+  summarize(data: string[][]): ProcessedData[] {
     const dataEntries = this.parseCSVData(data);
     const summaryMap = new Map<string, ProcessedData>();
 
@@ -80,12 +86,9 @@ export class FileUploadComponent {
 
     summaryData.forEach((summary) => {
       summary.hoursWorked = this.formatDuration(summary.hoursWorkedInt);
-      summary.flags = this.getFlags(
-        summary.expandedDetails,
-        summary.hoursWorkedInt
-      );
     });
 
+    this.summaryData = summaryData;
     return summaryData;
   }
 
@@ -125,7 +128,7 @@ export class FileUploadComponent {
     let overlapFound = false;
 
     entries.forEach((otherEntry) => {
-      if (otherEntry !== entry && this.entriesOverlap(entry, otherEntry)) {
+      if (otherEntry !== entry && this.doEntriesOverlap(entry, otherEntry)) {
         overlapFound = true;
       }
     });
@@ -141,7 +144,7 @@ export class FileUploadComponent {
     return duration > 8;
   }
 
-  entriesOverlap(entry1: ExpandedDetails, entry2: ExpandedDetails): boolean {
+  doEntriesOverlap(entry1: ExpandedDetails, entry2: ExpandedDetails): boolean {
     const start1 = moment(entry1.start).unix();
     const end1 = moment(entry1.end).unix();
     const start2 = moment(entry2.start).unix();
@@ -152,14 +155,13 @@ export class FileUploadComponent {
   }
 
   onProcessFile() {
-    if (this.file) {
-      Papa.parse(this.file, {
-        complete: (result: { data: string[][] }) => {
-          // Process the CSV data
-          const data = this.validateAndSummarize(result.data);
-          this.newSummaryDataEvent.emit(data);
-        },
-      });
-    }
+    this.summaryData.forEach((summary) => {
+      summary.flags = this.getFlags(
+        summary.expandedDetails,
+        summary.hoursWorkedInt
+      );
+    });
+
+    this.newSummaryDataEvent.emit(this.summaryData);
   }
 }

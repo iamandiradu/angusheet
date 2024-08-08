@@ -33,10 +33,6 @@
     background-color: var(--gray-900);
   }
 
-  .angular-logo {
-    max-width: 9.2rem;
-  }
-
   .content {
     display: flex;
     flex-direction: column;
@@ -61,13 +57,11 @@
 
 <main class="main">
   <div class="content">
-    <div class="upload-button-container">
-      <app-file-upload
-        requiredFileType=".csv"
-        (newSummaryDataEvent)="onNewSummaryData($event)"
-      ></app-file-upload>
-    </div>
     <app-summary [summaryData]="summaryData"></app-summary>
+    <app-file-upload
+      requiredFileType=".csv"
+      (newSummaryDataEvent)="onNewSummaryData($event)"
+    ></app-file-upload>
   </div>
 </main>
 
