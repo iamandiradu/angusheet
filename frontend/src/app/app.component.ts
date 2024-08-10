@@ -9,7 +9,7 @@ export interface ExpandedDetails {
 }
 export interface ProcessedData {
   date: string;
-  hoursWorkedInt: number;
+  minutesWorked: number;
   hoursWorked?: string;
   flags: string;
   entries: number;

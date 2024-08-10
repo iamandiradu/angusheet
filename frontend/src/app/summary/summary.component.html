@@ -14,7 +14,6 @@
   <ng-container matColumnDef="expandedDetails">
     <td mat-cell *matCellDef="let element" [attr.colspan]="columnsArray.length">
       <div
-        class="example-element-detail"
         [@detailsExpand]="element == expandedElement ? 'expanded' : 'collapsed'"
       >
         <mat-table id="expanded-table" [dataSource]="element.expandedDetails">
@@ -42,7 +41,9 @@
           <ng-container matColumnDef="duration">
             <mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
             <mat-cell *matCellDef="let entry">
-              {{ entry.duration }}
+              {{ formatDuration(entry.duration) }}
+            </mat-cell>
+          </ng-container>
             </mat-cell>
           </ng-container>
 

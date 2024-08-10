@@ -12,6 +12,7 @@ import {
   transition,
   trigger,
 } from '@angular/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-summary',
@@ -24,6 +25,7 @@ import {
     MatExpansionModule,
     NgIf,
     CommonModule,
+    BrowserAnimationsModule,
   ],
   templateUrl: './summary.component.html',
   styleUrl: './summary.component.less',
@@ -48,14 +50,21 @@ export class SummaryComponent {
     flags: 'Flags',
   } as { [key: string]: string };
   columnsArray = Object.keys(this.columns);
-  columnsHeadersArray = Object.values(this.columns);
-  columnsLength = this.columnsArray.length;
+  expandedElement?: ProcessedData = undefined;
 
   detailsColumnsArray = ['description', 'start', 'end', 'duration'];
+  formatDuration(totalMinutes: number): string {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
 
-  expandedElement?: any = undefined;
+    if (!hours) {
+      return `${minutes}m`;
+    }
 
-  isExpansionDetailRow(index: number, row: any): boolean {
-    return row.hasOwnProperty('expandedDetails');
+    if (!minutes) {
+      return `${hours}h`;
+    }
+
+    return `${hours}h:${minutes}m`;
   }
 }
