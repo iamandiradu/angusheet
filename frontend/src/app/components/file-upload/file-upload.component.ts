@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { ProcessedData } from '../app.component';
-import { FileUploadService } from '../file-upload.service';
+import { ProcessedData } from '../app/app.component';
+import { FileUploadService } from '../../services/file-upload/file-upload.service';
 
 @Component({
   selector: 'app-file-upload',

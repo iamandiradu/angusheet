@@ -1,7 +1,7 @@
 import { CommonModule, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { ProcessedData } from '../app.component';
+import { ProcessedData } from '../app/app.component';
 import { MatIcon } from '@angular/material/icon';
 import { MatCard, MatCardContent } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
