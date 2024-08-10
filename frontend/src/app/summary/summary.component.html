@@ -44,6 +44,11 @@
               {{ formatDuration(entry.duration) }}
             </mat-cell>
           </ng-container>
+
+          <ng-container matColumnDef="taskFlags">
+            <mat-header-cell *matHeaderCellDef> Flags </mat-header-cell>
+            <mat-cell *matCellDef="let entry">
+              {{ entry.taskFlags }}
             </mat-cell>
           </ng-container>
 

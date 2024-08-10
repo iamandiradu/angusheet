@@ -7,7 +7,7 @@
 />
 
 <div class="file-upload">
-  <span class="file-name"> {{ fileName || "No file uploaded yet" }}</span>
+  <span class="file-name"> {{ file?.name || "No file uploaded yet" }}</span>
 
   <button
     mat-mini-fab
@@ -20,14 +20,13 @@
 </div>
 
 <!-- Only display if file selected -->
-<div class="file-upload" *ngIf="fileName">
+<div class="file-upload" *ngIf="file?.name">
   <span class="file-name">Process</span>
-  <button
-    mat-mini-fab
-    color="primary"
-    class="process-btn"
-    (click)="onProcessFile()"
-  >
+  <button mat-mini-fab color="primary" class="process-btn" (click)="onUpload()">
     <mat-icon>settings</mat-icon>
   </button>
+</div>
+
+<div *ngIf="uploadResult">
+  {{ uploadResult }}
 </div>

@@ -50,9 +50,15 @@ export class SummaryComponent {
     flags: 'Flags',
   } as { [key: string]: string };
   columnsArray = Object.keys(this.columns);
+  detailsColumnsArray = [
+    'description',
+    'start',
+    'end',
+    'duration',
+    'taskFlags',
+  ];
   expandedElement?: ProcessedData = undefined;
 
-  detailsColumnsArray = ['description', 'start', 'end', 'duration'];
   formatDuration(totalMinutes: number): string {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
