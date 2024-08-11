@@ -7,7 +7,8 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class FileUploadService {
-  private apiUrl = 'http://localhost:5152/api/timesheet/upload'; // Adjust the API URL as necessary
+  private apiUrl =
+    'https://angusheet-cra9b3crezhsc8cr.germanywestcentral-01.azurewebsites.net/api/timesheet/upload';
 
   constructor(private http: HttpClient) {}
 
